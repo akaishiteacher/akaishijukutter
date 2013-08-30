@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#111111</color>
+    <color name="grey">#555555</color>
+    <color name="red">#ee0000</color>
+    <color name="white">#ffeeee</color>
+    <color name="link">#ff5555</color>
+    <drawable name="separate_line">#cc0000</drawable>
+</resources>

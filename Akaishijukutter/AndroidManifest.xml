@@ -7,24 +7,38 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"/><application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">
-        <activity android:name="net.akaishi_teacher.akaishijukutter.HomeActivity" android:label="@string/app_name">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="net.akaishi_teacher.akaishijukutter.HomeActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TwitterAuthActivity" android:launchMode="singleTask">
+        <activity
+            android:name=".TwitterAuthActivity"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:host="twitter" android:scheme="akaishi" />
+                <data
+                    android:host="twitter"
+                    android:scheme="akaishi" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TweetActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

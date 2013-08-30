@@ -7,10 +7,12 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class HomeActivity extends ListActivity
@@ -29,7 +31,12 @@ public class HomeActivity extends ListActivity
 		}else {
 			mAdapter = new TweetAdapter(this);
 			setListAdapter(mAdapter);
-
+			
+			ListView lv = getListView();
+			ColorDrawable sage = new ColorDrawable(this.getResources().getColor(R.drawable.separate_line));
+			lv.setDivider(sage);
+			lv.setDividerHeight(2);
+			
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			reloadTimeLine();
 		}
@@ -88,6 +95,10 @@ public class HomeActivity extends ListActivity
 	        case R.id.menu_refresh:
 	            reloadTimeLine();
 	            return true;
+	        case R.id.menu_tweet:
+	        	Intent tweet = new Intent(this, TweetActivity.class);
+	        	startActivity(tweet);
+	        	return true;
 	    }
 	    return super.onOptionsItemSelected(item);
 	}

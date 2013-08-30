@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-       <com.loopj.android.image.SmartImageView
+    android:layout_height="match_parent"
+    android:background="@color/list_item" >
+
+    <com.loopj.android.image.SmartImageView
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="1dp"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -18,38 +20,61 @@
         android:layout_alignTop="@+id/icon"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/icon"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:text="" />
+        android:text="@string/test_short"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/screen_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/name"
+        android:layout_alignBottom="@+id/name"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/name"
-        android:textColor="#777777"
-        android:textSize="12sp"
-        android:text="" />
+        android:text="@string/test_short"
+        android:textColor="#aaaaaa"
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/icon"
+        android:layout_alignBottom="@+id/name"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/name"
-        android:textSize="12sp"
-        android:text="" />
-    
+        android:text="@string/test_short"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/name"
-        android:layout_marginRight="3dp"
         android:layout_below="@+id/name"
-        android:text="" />
+        android:layout_marginRight="3dp"
+        android:text="@string/test_long"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/via"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text"
+        android:layout_below="@+id/text"
+        android:text="@string/test_short"
+        android:textColorLink="@color/link"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/label_via"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/via"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/via"
+        android:text="@string/label_via"
+        android:textColor="#aaaaaa"
+        android:textSize="11sp" />
 
 </RelativeLayout>
