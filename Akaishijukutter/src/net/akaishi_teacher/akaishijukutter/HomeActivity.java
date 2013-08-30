@@ -36,7 +36,7 @@ public class HomeActivity extends ListActivity
 			ColorDrawable sage = new ColorDrawable(this.getResources().getColor(R.drawable.separate_line));
 			lv.setDivider(sage);
 			lv.setDividerHeight(2);
-			
+
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			reloadTimeLine();
 		}
@@ -52,10 +52,11 @@ public class HomeActivity extends ListActivity
 	private void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
-			protected List<twitter4j.Status> doInBackground(Void... params) {
+			protected List<twitter4j.Status> doInBackground(Void... params)
+			{
+				mAdapter.clear();
 				try {
-					Paging paging = new Paging(1, 10);
-					return mTwitter.getHomeTimeline(paging);
+					return mTwitter.getHomeTimeline();
 				} catch (TwitterException e) {
 					e.printStackTrace();
 				}
@@ -69,7 +70,7 @@ public class HomeActivity extends ListActivity
 					boolean flag = false;
 					if(mAdapter.isEmpty())
 						flag = true;
-					
+
 					for (twitter4j.Status status : result) {
 						if(flag)
 						{
@@ -91,18 +92,18 @@ public class HomeActivity extends ListActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_refresh:
-	            reloadTimeLine();
-	            return true;
-	        case R.id.menu_tweet:
-	        	Intent tweet = new Intent(this, TweetActivity.class);
-	        	startActivity(tweet);
-	        	return true;
-	    }
-	    return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.menu_refresh:
+			reloadTimeLine();
+			return true;
+		case R.id.menu_tweet:
+			Intent tweet = new Intent(this, TweetActivity.class);
+			startActivity(tweet);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}

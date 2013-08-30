@@ -39,6 +39,8 @@
         <activity
             android:name=".TweetActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".MyPreference" />
     </application>
 
 </manifest>
