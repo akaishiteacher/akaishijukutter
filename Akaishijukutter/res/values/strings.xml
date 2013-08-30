@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">赤石塾</string>
+    <string name="action_settings">設定</string>
+    <string name="action_hello">ようこそ</string>
+    <string name="twitter_consumer_key">D8TvsqlDDOxYxZ8F5WfgPQ</string>
+    <string name="twitter_consumer_secret">O3RJg10UCwpNCu6raAwIu8dQti2uInAo1nJHbj4E</string>
+    <string name="twitter_auth">入塾</string>
+    <string name="twitter_callback_url">akaishi://twitter</string>
+    <string name="menu_refresh">更新</string>
+</resources>
