@@ -2,12 +2,12 @@ package net.akaishi_teacher.akaishijukutter;
 
 import java.util.List;
 
-import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,9 +33,9 @@ public class HomeActivity extends ListActivity
 			setListAdapter(mAdapter);
 			
 			ListView lv = getListView();
-			ColorDrawable sage = new ColorDrawable(this.getResources().getColor(R.drawable.separate_line));
+			Drawable sage = this.getResources().getDrawable(R.drawable.rs_line);
 			lv.setDivider(sage);
-			lv.setDividerHeight(2);
+			lv.setDividerHeight(10);
 
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			reloadTimeLine();
@@ -99,6 +99,10 @@ public class HomeActivity extends ListActivity
 		case R.id.menu_tweet:
 			Intent tweet = new Intent(this, TweetActivity.class);
 			startActivity(tweet);
+			return true;
+		case R.id.action_settings:
+			Intent pref = new Intent(this, MyPreference.class);
+			startActivity(pref);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Tweet取得関連" >
+        <EditTextPreference
+            android:dialogTitle="ツイート取得数"
+            android:key="reload_limit"
+            android:summary="20"
+            android:title="ツイート取得数(10～200)"
+            android:inputType="number" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
