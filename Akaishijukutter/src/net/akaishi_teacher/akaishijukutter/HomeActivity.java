@@ -1,17 +1,18 @@
 package net.akaishi_teacher.akaishijukutter;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HomeActivity extends Activity
+public class HomeActivity extends FragmentActivity
 {
-	private ViewPager viewPager;
-
+	ViewPager pager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,10 +25,37 @@ public class HomeActivity extends Activity
 			startActivity(intent);
 			finish();
 		}else {
-			viewPager = (ViewPager) findViewById(R.id.viewpager);
-			PagerAdapter mPagerAdapter = new TopViewPagerAdapter(this);
-			viewPager.setAdapter(mPagerAdapter);
-			
+			pager = (ViewPager) findViewById(R.id.viewpager);
+
+	        // PagerTitleStrip のカスタマイズ
+	        PagerTabStrip strip = (PagerTabStrip) findViewById(R.id.strip);
+	        strip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+	        strip.setTextColor(Color.WHITE);
+	        strip.setTextSpacing(50);
+	        strip.setNonPrimaryAlpha(0.3f);
+	        strip.setDrawFullUnderline(true);
+	        strip.setTabIndicatorColor(0xcc3333);
+
+	        // ViewPager の Adapter
+	        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+
+	        // 各ページアイテム(おすすめアプリ)
+	        PageItem home = new PageItem();
+	        home.title = "home";
+	        home.fragmentKind = PageItem.TWEET;
+	        adapter.addItem(home);
+	        
+	        PageItem reply = new PageItem();
+	        reply.title = "replay";
+	        reply.fragmentKind = PageItem.TWEET;
+	        adapter.addItem(reply);
+	        
+	        PageItem dm = new PageItem();
+	        dm.title = "DM";
+	        dm.fragmentKind = PageItem.DM;
+	        adapter.addItem(dm);
+	        
+	        pager.setAdapter(adapter);
 		}
 	}
 
@@ -43,7 +71,7 @@ public class HomeActivity extends Activity
 	    switch (item.getItemId()) {
 	        case R.id.menu_refresh:
 	        	
-	            //reloadTimeLine();
+	        	pager.getAdapter().notifyDataSetChanged();
 	            return true;
 	        case R.id.menu_tweet:
 	        	Intent tweet = new Intent(this, TweetActivity.class);
@@ -52,7 +80,7 @@ public class HomeActivity extends Activity
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
-	//test
+	
 //	private void showToast(String text) {
 //		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 //	}
