@@ -52,7 +52,7 @@ public class HomeActivity extends Activity
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
-	
+	//test
 //	private void showToast(String text) {
 //		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 //	}
