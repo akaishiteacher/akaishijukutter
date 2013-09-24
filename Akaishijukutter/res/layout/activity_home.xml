@@ -3,11 +3,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <android.support.v4.view.ViewPager
+	<android.support.v4.view.ViewPager
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderBackground="@android:color/darker_gray"
+        ptr:ptrMode="both" >
 
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/strip"
@@ -16,7 +19,6 @@
             android:background="#333333"
             android:paddingBottom="6dp"
             android:paddingTop="6dp" />
-        
-    </android.support.v4.view.ViewPager>
+   </android.support.v4.view.ViewPager>
 
 </LinearLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#222222" >
 
     <Button
         android:id="@+id/action_tweet"
@@ -9,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_margin = "5dp"
+        android:background="#cccccc"
         android:text="@string/action_tweet" />
 
     <EditText
@@ -17,6 +20,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/action_tweet"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp" 
+	    android:background="#FFFFFF"
         android:gravity="left|top"
         android:ems="10"
         android:inputType="textMultiLine" >

@@ -1,6 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_twitter"
+        android:icon="@drawable/ic_action_twitter"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/menu_twitter"/>
+    
+    <item
         android:id="@+id/menu_tweet"
         android:icon="@drawable/ic_action_compose"
         android:orderInCategory="100"
@@ -13,7 +20,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/menu_refresh"/>
-    
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
