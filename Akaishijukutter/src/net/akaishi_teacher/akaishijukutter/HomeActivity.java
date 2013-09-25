@@ -89,12 +89,12 @@ public class HomeActivity extends FragmentActivity
 			if(adapter.getFragmentKind(position) == PageItem.TWEET)
 			{
 				TweetListViewFragment  listFragment = (TweetListViewFragment) adapter.getFragment(position);
-				listFragment.reloadTimeLine(adapter.getTweetKind(position), paging);
+				listFragment.getData(adapter.getTweetKind(position), paging);
 			}
 			else if(adapter.getFragmentKind(position) == PageItem.DM)
 			{
 				DMListViewFragment listFragment = (DMListViewFragment) adapter.getFragment(position);
-				listFragment.reloadTimeLine(adapter.getTweetKind(position), paging);
+				listFragment.getData(adapter.getTweetKind(position), paging);
 			}
 			return true;
 		case R.id.menu_tweet:

@@ -10,6 +10,10 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 public class TweetListViewFragment extends BaseListFragment
 {
@@ -23,20 +27,7 @@ public class TweetListViewFragment extends BaseListFragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		p = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String str = p.getString("pref_get_num", "20");
-		Paging paging = new Paging(1, Integer.parseInt(str));
-
-		TweetAdapter mAdapter;
-		if(_listView != null){
-			mAdapter  = (TweetAdapter) _listView.getAdapter();
-		}
-		else{
-			mAdapter = new TweetAdapter(getActivity());
-			setListAdapter(mAdapter);
-			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
-			reloadTimeLine(getArguments().getInt("mode"), paging);
-		}
+		reloadTimeLine(false);
 	}
 
 
@@ -54,8 +45,28 @@ public class TweetListViewFragment extends BaseListFragment
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
+	
+	public void reloadTimeLine(boolean flag)
+	{
+		p = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String str = p.getString("pref_get_num", "20");
+		Paging paging = new Paging(1, Integer.parseInt(str));
 
-	public void reloadTimeLine(final int mode, final Paging paging)
+		TweetAdapter mAdapter;
+		if(_listView != null){
+			mAdapter  = (TweetAdapter) ((TweetAdapter) ((HeaderViewListAdapter)_listView.getAdapter()).getWrappedAdapter());
+			if(flag)
+				getData(getArguments().getInt("mode"), paging);
+		}
+		else{
+			mAdapter = new TweetAdapter(getActivity());
+			setListAdapter(mAdapter);
+			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+			getData(getArguments().getInt("mode"), paging);
+		}
+	}
+
+	public void getData(final int mode, final Paging paging)
 	{
 
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
@@ -77,8 +88,10 @@ public class TweetListViewFragment extends BaseListFragment
 			}
 
 			@Override
-			protected void onPostExecute(List<twitter4j.Status> result) {
-				TweetAdapter mAdapter = (TweetAdapter) _listView.getAdapter();
+			protected void onPostExecute(List<twitter4j.Status> result)
+			{
+				TweetAdapter mAdapter = ((TweetAdapter) ((HeaderViewListAdapter)_listView.getAdapter()).getWrappedAdapter());
+				
 				if (result != null) {
 					mAdapter.clear();
 					for (twitter4j.Status status : result) {
@@ -88,8 +101,22 @@ public class TweetListViewFragment extends BaseListFragment
 				} else {
 					showToast("タイムラインの取得に失敗しました。。。");
 				}
+				if(mPullToRefreshListView != null)
+					mPullToRefreshListView.onRefreshComplete();
 			}
 		};
 		task.execute();
 	}
+	
+	@Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+		reloadTimeLine(true);
+    }
+
+	@Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+		
+    }
 }

@@ -10,35 +10,24 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 public class DMListViewFragment extends BaseListFragment
 {
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		View view = inflater.inflate(R.layout.list_view, container, false);
-
-		return view;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		p = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String str = p.getString("pref_get_num", "20");
-		Paging paging = new Paging(1, Integer.parseInt(str));
-
-		DMAdapter mAdapter;
-		if(_listView != null){
-			mAdapter  = (DMAdapter) _listView.getAdapter();
-		}
-		else{
-			mAdapter = new DMAdapter(getActivity());
-			setListAdapter(mAdapter);
-			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
-			reloadTimeLine(getArguments().getInt("mode"), paging);
-		}
+		reloadTimeLine(false);
 	}
 
 	@Override
@@ -55,8 +44,28 @@ public class DMListViewFragment extends BaseListFragment
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
+	
+	public void reloadTimeLine(boolean flag)
+	{
+		p = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String str = p.getString("pref_get_num", "20");
+		Paging paging = new Paging(1, Integer.parseInt(str));
 
-	public void reloadTimeLine(final int mode, final Paging paging)
+		DMAdapter mAdapter;
+		if(_listView != null){
+			mAdapter  = ((DMAdapter) ((HeaderViewListAdapter)_listView.getAdapter()).getWrappedAdapter());
+			if(flag)
+				getData(getArguments().getInt("mode"), paging);
+		}
+		else{
+			mAdapter = new DMAdapter(getActivity());
+			setListAdapter(mAdapter);
+			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+			getData(getArguments().getInt("mode"), paging);
+		}
+	}
+
+	public void getData(final int mode, final Paging paging)
 	{
 		AsyncTask<Void, Void, List<twitter4j.DirectMessage>> task = new AsyncTask<Void, Void, List<twitter4j.DirectMessage>>() {
 			@Override
@@ -77,7 +86,8 @@ public class DMListViewFragment extends BaseListFragment
 			@Override
 			protected void onPostExecute(List<twitter4j.DirectMessage> result)
 			{
-				DMAdapter mAdapter = (DMAdapter) _listView.getAdapter();
+				DMAdapter mAdapter = ((DMAdapter) ((HeaderViewListAdapter)_listView.getAdapter()).getWrappedAdapter());
+				
 				if (result != null) {
 					mAdapter.clear();
 					for (twitter4j.DirectMessage status : result) {
@@ -87,8 +97,21 @@ public class DMListViewFragment extends BaseListFragment
 				} else {
 					showToast("タイムラインの取得に失敗しました。。。");
 				}
+				if(mPullToRefreshListView != null)
+					mPullToRefreshListView.onRefreshComplete();
 			}
 		};
 		task.execute();
 	}
+	
+	@Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+		reloadTimeLine(true);
+    }
+
+	@Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+    }
 }

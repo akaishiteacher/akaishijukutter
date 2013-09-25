@@ -11,24 +11,35 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.extras.listfragment.PullToRefreshListFragment;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class BaseListFragment extends ListFragment
+public class BaseListFragment extends ListFragment implements OnRefreshListener2<ListView>
 {
 	private static final String KEY_LIST_POSITION = "KEY_LIST_POSITION";
 
 	SharedPreferences p;
 	Twitter mTwitter;
 	ListView _listView = null;
-	private PullToRefreshListFragment mPullRefreshListFragment;
-	private PullToRefreshListView mPullRefreshListView;
+	protected PullToRefreshListView mPullToRefreshListView;
 	private int _listPosition = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{	
 		View view = inflater.inflate(R.layout.list_view, container, false);
+		
+		
+		
+		mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listview);
+		mPullToRefreshListView.setMode(Mode.BOTH);
+		mPullToRefreshListView.getLoadingLayoutProxy().setPullLabel("ガンガン引っ張っちゃって！");
+		mPullToRefreshListView.getLoadingLayoutProxy().setReleaseLabel("らめぇ");
+		mPullToRefreshListView.getLoadingLayoutProxy().setRefreshingLabel("取得中ですよ");
+		mPullToRefreshListView.setOnRefreshListener(this);
+		
 		return view;
 	}
 
@@ -41,8 +52,6 @@ public class BaseListFragment extends ListFragment
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mPullRefreshListFragment = (PullToRefreshListFragment) getFragmentManager().findFragmentById(R.id.listview);
-
 		// インスタンス保存状態から表示位置取得
 		if(savedInstanceState != null) {
 			_listPosition = savedInstanceState.getInt(KEY_LIST_POSITION);
@@ -76,7 +85,7 @@ public class BaseListFragment extends ListFragment
 		outState.putInt(KEY_LIST_POSITION, _listPosition);
 	}
 
-	public void reloadTimeLine(final int mode, final Paging paging)
+	public void getData(final int mode, final Paging paging)
 	{
 
 	}
@@ -84,5 +93,15 @@ public class BaseListFragment extends ListFragment
 	void showToast(String text) {
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 	}
+
+	@Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+    }
+
+	@Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView)
+    {
+    }
 
 }
